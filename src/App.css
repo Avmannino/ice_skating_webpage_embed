@@ -563,28 +563,31 @@
   }
 
   .heroTitleImg {
-    width: min(180px, 92vw);
+    width: min(155px, 92vw);
     margin-top: -40px;
+    margin-left:3px
+    
   }
 
   .heroAtText {
     font-size: 13px;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     font-weight: 100;
-    margin-top: -3px;
+    margin-top: -7px;
   }
 
   .logo {
-    height: 50px;
-    margin-top: 0px;
+    height: 32px;
+    margin-top: -3px;
   }
 
   .heroSubtitle {
     max-width: 70ch;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.78);
     text-align: center;
+    margin-bottom:-10px;
   }
 
   .ctaRow {
