@@ -26,9 +26,10 @@ const CARDS = [
     image: imgInhouse,
     alt: "In-House Spring League",
     pos: "50% 35%",
+    springLowerButton: true, // ✅ only this card (30px)
   },
   {
-    title: "Learn to Play & Skate",
+    title: "Learn to Play",
     href: "https://www.wingsarena.com/learnto",
     description: "Beginner-friendly programs for new skaters & players.",
     image: imgLearnTo,
@@ -42,6 +43,7 @@ const CARDS = [
     image: imgLunchtime,
     alt: "Lunchtime Adult Drop-In Hockey",
     pos: "50% 0%",
+    lowerButton: true, // ✅ only this card (kept)
   },
   {
     title: "Wings Arena Adult Hockey League (WAAHL)",
@@ -149,7 +151,19 @@ function Icon({ name }) {
   }
 }
 
-function HockeyCard({ title, href, description, icon, image, alt, pos, fit, scale }) {
+function HockeyCard({
+  title,
+  href,
+  description,
+  icon,
+  image,
+  alt,
+  pos,
+  fit,
+  scale,
+  lowerButton,
+  springLowerButton,
+}) {
   const isContain = fit === "contain";
 
   // ✅ Scale only applies to "cover" images. Contain ignores scale (so nothing gets clipped).
@@ -184,7 +198,13 @@ function HockeyCard({ title, href, description, icon, image, alt, pos, fit, scal
       </div>
 
       <div className="cardBottom">
-        <span className="cardLink">View details</span>
+        <span
+          className={`cardLink ${
+            lowerButton ? "cardLink--lower" : springLowerButton ? "cardLink--springLower" : ""
+          }`}
+        >
+          View details
+        </span>
       </div>
     </a>
   );
@@ -197,14 +217,39 @@ export default function App() {
         <div className="heroOverlay" />
 
         <div className="heroInner">
-          <div className="brandRow">
-            <a
-              className="brand"
-              href="https://www.wingsarena.com/"
-              aria-label="Wings Arena Home"
-            >
-              <img className="logo" src={logo} alt="Wings Arena" />
-            </a>
+          {/* ✅ NEW: Left/Center/Right header controls */}
+          <div className="heroNav" aria-label="Header navigation">
+            <div className="heroNavSide heroNavSide--left">
+              <a
+                className="heroBtn"
+                href="https://www.wingsarena.com/schedule"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Schedule
+              </a>
+            </div>
+
+            <div className="brandRow">
+              <a
+                className="brand"
+                href="https://www.wingsarena.com/"
+                aria-label="Wings Arena Home"
+              >
+                <img className="logo" src={logo} alt="Wings Arena" />
+              </a>
+            </div>
+
+            <div className="heroNavSide heroNavSide--right">
+              <a
+                className="heroBtn heroBtn--primary"
+                href="https://www.catchcorner.com/facility-page/embedded/rental/wings-arena"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ice Rentals
+              </a>
+            </div>
           </div>
 
           {/* ✅ Keep a real H1 for SEO/accessibility, but hide it visually */}

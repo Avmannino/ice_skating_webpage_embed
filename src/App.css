@@ -9,11 +9,14 @@
   --text: rgba(255, 255, 255, 0.92);
   --muted: rgba(255, 255, 255, 0.72);
 
-  --card: rgba(255, 255, 255, 0.06);
+  --card: rgba(255, 255, 255, 0.13);
   --card-strong: rgba(255, 255, 255, 0.08);
   --border: rgba(255, 255, 255, 0.12);
 
   --shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+
+  /* ✅ Used for non-desktop (flex) layouts */
+  --card-width: 295px;
 }
 
 /* ✅ Visually hidden helper (keeps SEO/accessibility) */
@@ -22,7 +25,7 @@
   width: 1px !important;
   height: 1px !important;
   padding: 0 !important;
-  margin: -1px !important;
+  margin: 0 !important;
   overflow: hidden !important;
   clip: rect(0, 0, 0, 0) !important;
   white-space: nowrap !important;
@@ -80,6 +83,71 @@
   text-align: center;
 }
 
+/* ✅ NEW: header nav row (left button / centered logo / right button) */
+.heroNav {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+}
+
+.heroNavSide {
+  display: flex;
+  align-items: center;
+}
+
+.heroNavSide--left {
+  justify-content: flex-start;
+}
+
+.heroNavSide--right {
+  justify-content: flex-end;
+}
+
+/* ✅ Header buttons */
+.heroBtn {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: first baseline;
+  padding: 15px 45px;
+  border-radius: 28px;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-size: 16.5px;
+  margin-bottom: -195px;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(0, 19, 113, 0.338);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+
+.heroBtn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+.heroBtn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(207, 11, 53, 0.55),
+    var(--shadow);
+}
+
+.heroBtn--primary {
+  background: rgba(207, 11, 53, 0.329);
+  border-color: rgba(207, 11, 53, 0.35);
+}
+
+.heroBtn--primary:hover {
+  background: rgba(207, 11, 53, 0.22);
+  border-color: rgba(207, 11, 53, 0.55);
+}
+
 .brandRow {
   display: flex;
   align-items: center;
@@ -134,13 +202,29 @@
   flex: 1;
 }
 
-/* ✅ FLEX WRAP LAYOUT (centers 2nd row automatically on desktop) */
+/* ✅ Default layout: flex wrap (this centers any incomplete last row) */
 .grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px 55px;
   align-items: stretch;
+}
+
+/*
+  ✅ DESKTOP: keep flex (do NOT switch to grid), just tighten the gap a bit
+*/
+@media (min-width: 1000px) {
+  .grid {
+    gap: 20px 40px;
+  }
+}
+
+/* ✅ Larger desktop: restore your bigger spacing */
+@media (min-width: 1400px) {
+  .grid {
+    gap: 20px 55px;
+  }
 }
 
 /* CARDS */
@@ -155,14 +239,38 @@
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
-  transition: transform 180ms ease, border-color 180ms ease;
+
+  /* ✅ pop transition */
+  transition:
+    transform 150ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    border-color 150ms ease;
+
   outline: none;
   position: relative;
   overflow: hidden;
   min-height: 400px;
 
-  /* ✅ fixed card width so last row centers cleanly */
-  flex: 0 0 295px;
+  /* ✅ base (non-desktop) fixed card width */
+  flex: 0 0 var(--card-width);
+
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* ✅ NEW: Desktop widths (keep 4-up sizing like the old grid, while preserving centered last row) */
+@media (min-width: 1000px) {
+  .card {
+    flex: 0 1 calc((100% - (3 * 40px)) / 4);
+    max-width: calc((100% - (3 * 40px)) / 4);
+  }
+}
+
+@media (min-width: 1400px) {
+  .card {
+    flex-basis: calc((100% - (3 * 25px)) / 4);
+    max-width: calc((100% - (3 * 55px)) / 4);
+  }
 }
 
 .card::before {
@@ -184,9 +292,12 @@
   z-index: 1;
 }
 
+/* ✅ "pop" hover */
 .card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(207, 11, 53, 0.55);
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(207, 11, 53, 0.60);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
+  z-index: 2;
 }
 
 .card:focus-visible {
@@ -282,7 +393,7 @@
 }
 
 .cardLink {
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.01em;
   color: rgba(255, 255, 255, 0.92);
   display: inline-flex;
@@ -290,15 +401,27 @@
   align-items: center;
   padding: 10px 14px;
   border-radius: 12px;
-  background: rgba(207, 11, 53, 0.12);
+  background: rgba(207, 11, 53, 0.479);
   border: 1px solid rgba(207, 11, 53, 0.25);
-  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+
+/* ✅ Lunchtime card */
+.cardLink--lower {
+  position: relative;
+  top: 20px;
+}
+
+/* ✅ Spring League card */
+.cardLink--springLower {
+  position: relative;
+  top: 30px;
 }
 
 .card:hover .cardLink {
   background: rgba(207, 11, 53, 0.20);
   border-color: rgba(207, 11, 53, 0.45);
-  transform: translateY(-1px);
+  transform: translateY(-3px);
 }
 
 .footer {
@@ -323,6 +446,23 @@
     padding: 20px 12px 34px;
   }
 
+  /* ✅ stack the header buttons nicely on mobile */
+  .heroNav {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: 10px;
+  }
+
+  .heroNavSide--left,
+  .heroNavSide--right {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .heroBtn {
+    width: min(320px, 92vw);
+  }
+
   .grid {
     justify-content: center;
     gap: 35px;
@@ -338,13 +478,13 @@
   .cardTop {
     flex-direction: column;
     gap: 10px;
-    align-items: center; /* ✅ center the child blocks */
+    align-items: center;
     width: 100%;
   }
 
   .cardText {
-    width: 100%;         /* ✅ prevents shrink-to-fit (fixes “one card” looking off) */
-    text-align: center;  /* ✅ belt-and-suspenders */
+    width: 100%;
+    text-align: center;
   }
 
   .cardMedia {
