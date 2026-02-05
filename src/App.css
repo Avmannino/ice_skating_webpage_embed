@@ -331,7 +331,7 @@
 }
 
 .cardTitle {
-  margin: 0px 0 0;
+  margin: -2px 0 0;
   font-size: 19px;
   line-height: 1.25;
   letter-spacing: -0.01em;
