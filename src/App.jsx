@@ -85,12 +85,27 @@ function getCardCtaText(title) {
   return "Click for Info";
 }
 
+// ✅ Only these 3 cards should have the divider moved up
+function hasRaisedDivider(title) {
+  return (
+    title === "In-House Spring League" ||
+    title === "Learn to Play" ||
+    title === "Lunchtime Adult Drop-In Hockey"
+  );
+}
+
 function HockeyCard({ title, description, image, alt, pos, fit, scale }) {
   const isContain = fit === "contain";
   const imgScale = isContain ? 1 : typeof scale === "number" ? scale : 1;
 
+  const raisedDivider = hasRaisedDivider(title);
+
   return (
-    <div className="card" role="group" aria-label={title}>
+    <div
+      className={`card ${raisedDivider ? "card--raiseDivider" : ""}`}
+      role="group"
+      aria-label={title}
+    >
       <div className={`cardMedia ${isContain ? "cardMedia--contain" : ""}`}>
         <img
           className={`cardImg ${isContain ? "cardImg--contain" : ""}`}
