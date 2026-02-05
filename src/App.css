@@ -353,7 +353,7 @@
 
 /* ✅ Reserved space for Wix buttons dropped into each card */
 .cardBtnSlot {
-  height: 34px;
+  height: 50px;
   margin-top: 18px;
   width: 100%;
 }
