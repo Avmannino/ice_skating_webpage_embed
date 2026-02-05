@@ -83,7 +83,7 @@
   text-align: center;
 }
 
-/* ✅ NEW: header nav row (left button / centered logo / right button) */
+/* ✅ header nav row */
 .heroNav {
   width: 100%;
   display: grid;
@@ -95,6 +95,7 @@
 .heroNavSide {
   display: flex;
   align-items: center;
+  min-width: 0;
 }
 
 .heroNavSide--left {
@@ -108,21 +109,25 @@
 /* ✅ Header buttons */
 .heroBtn {
   display: inline-flex;
-  align-items: baseline;
-  justify-content: first baseline;
-  padding: 15px 45px;
-  border-radius: 28px;
+  align-items: center;
+  justify-content: center;
+
+  font-size: clamp(12px, 1.2vw, 16px);
+  padding: clamp(8px, 1.1vw, 14px) clamp(12px, 2.2vw, 26px);
+  border-radius: 999px;
+
   text-decoration: none;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  font-size: 16.5px;
-  margin-bottom: -195px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+
   color: rgba(255, 255, 255, 0.92);
-  background: rgba(0, 19, 113, 0.338);
+  background: rgba(0, 19, 113, 0.30);
   border: 1px solid rgba(255, 255, 255, 0.16);
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
   backdrop-filter: blur(10px);
+
   white-space: nowrap;
+  max-width: 100%;
 }
 
 .heroBtn:hover {
@@ -139,13 +144,13 @@
 }
 
 .heroBtn--primary {
-  background: rgba(207, 11, 53, 0.329);
-  border-color: rgba(207, 11, 53, 0.35);
+  background: rgba(207, 11, 53, 0.22);
+  border-color: rgba(207, 11, 53, 0.42);
 }
 
 .heroBtn--primary:hover {
-  background: rgba(207, 11, 53, 0.22);
-  border-color: rgba(207, 11, 53, 0.55);
+  background: rgba(207, 11, 53, 0.30);
+  border-color: rgba(207, 11, 53, 0.60);
 }
 
 .brandRow {
@@ -174,7 +179,7 @@
   margin-top: -25px;
 }
 
-/* ✅ NEW: image-based hero title */
+/* ✅ image-based hero title */
 .heroTitleImg {
   display: block;
   width: min(220px, 92vw);
@@ -202,7 +207,7 @@
   flex: 1;
 }
 
-/* ✅ Default layout: flex wrap (this centers any incomplete last row) */
+/* ✅ Default layout: flex wrap */
 .grid {
   display: flex;
   flex-wrap: wrap;
@@ -211,16 +216,12 @@
   align-items: stretch;
 }
 
-/*
-  ✅ DESKTOP: keep flex (do NOT switch to grid), just tighten the gap a bit
-*/
 @media (min-width: 1000px) {
   .grid {
     gap: 20px 40px;
   }
 }
 
-/* ✅ Larger desktop: restore your bigger spacing */
 @media (min-width: 1400px) {
   .grid {
     gap: 20px 55px;
@@ -240,7 +241,6 @@
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
 
-  /* ✅ pop transition */
   transition:
     transform 150ms cubic-bezier(0.2, 0.9, 0.2, 1),
     box-shadow 150ms cubic-bezier(0.2, 0.9, 0.2, 1),
@@ -251,14 +251,12 @@
   overflow: hidden;
   min-height: 400px;
 
-  /* ✅ base (non-desktop) fixed card width */
   flex: 0 0 var(--card-width);
 
   transform-origin: center;
   will-change: transform;
 }
 
-/* ✅ NEW: Desktop widths (keep 4-up sizing like the old grid, while preserving centered last row) */
 @media (min-width: 1000px) {
   .card {
     flex: 0 1 calc((100% - (3 * 40px)) / 4);
@@ -292,7 +290,6 @@
   z-index: 1;
 }
 
-/* ✅ "pop" hover */
 .card:hover {
   transform: translateY(-6px) scale(1.03);
   border-color: rgba(207, 11, 53, 0.60);
@@ -336,7 +333,6 @@
   pointer-events: none;
 }
 
-/* ✅ CONTAIN MODE (for logos) */
 .cardMedia--contain {
   padding: 14px;
   background: rgba(0, 0, 0, 0.18);
@@ -406,13 +402,13 @@
   transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
 }
 
-/* ✅ Lunchtime card */
+/* ✅ Lunchtime card (desktop default) */
 .cardLink--lower {
   position: relative;
   top: 20px;
 }
 
-/* ✅ Spring League card */
+/* ✅ Spring League card (desktop default) */
 .cardLink--springLower {
   position: relative;
   top: 30px;
@@ -436,6 +432,8 @@
 @media (max-width: 520px) {
   .logo {
     height: 40px;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .hero {
@@ -446,21 +444,17 @@
     padding: 20px 12px 34px;
   }
 
-  /* ✅ stack the header buttons nicely on mobile */
+  /* ✅ REMOVE the buttons on mobile only */
+  .heroNavSide--left,
+  .heroNavSide--right {
+    display: none;
+  }
+
+  /* ✅ keep the logo centered (no left/right columns needed) */
   .heroNav {
     grid-template-columns: 1fr;
     justify-items: center;
-    row-gap: 10px;
-  }
-
-  .heroNavSide--left,
-  .heroNavSide--right {
-    justify-content: center;
-    width: 100%;
-  }
-
-  .heroBtn {
-    width: min(320px, 92vw);
+    row-gap: 0;
   }
 
   .grid {
@@ -474,7 +468,6 @@
     min-height: unset;
   }
 
-  /* ✅ FIX: make the text block full-width and centered in the column layout */
   .cardTop {
     flex-direction: column;
     gap: 10px;
@@ -509,5 +502,14 @@
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.78);
     text-align: center;
+  }
+
+  /* ✅ Move these two “View details” buttons UP on mobile */
+  .cardLink--lower {
+    top: 6px;  /* was 20px */
+  }
+
+  .cardLink--springLower {
+    top: 10px; /* was 30px */
   }
 }
