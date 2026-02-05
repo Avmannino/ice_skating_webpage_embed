@@ -42,7 +42,7 @@ const CARDS = [
     pos: "50% 0%",
   },
   {
-    title: "Wings Arena Adult Hockey League (WAAHL)",
+    title: "Wings Arena Adult Hockey League",
     description: "Multiple skill levels. Competitive, organized league play.",
     image: imgAdultLeague,
     alt: "Adult Hockey League",
@@ -72,6 +72,19 @@ const CARDS = [
   },
 ];
 
+function getCardCtaText(title) {
+  // Map exactly to what you requested (by the visible card title)
+  if (title === "In-House Spring League") return "Click for Info & Registration";
+  if (title === "Learn to Play") return "Click for Info & Registration";
+  if (title === "Lunchtime Adult Drop-In Hockey") return "Click for Info & RSVP";
+  if (title === "Private Lessons") return "Click for Info";
+  if (title === "Stick & Puck") return "Click for Info";
+  if (title === "Mites B/C Schedule") return "Click for Schedule";
+
+  // fallback (in case you add new cards later)
+  return "Click for Info";
+}
+
 function HockeyCard({ title, description, image, alt, pos, fit, scale }) {
   const isContain = fit === "contain";
   const imgScale = isContain ? 1 : typeof scale === "number" ? scale : 1;
@@ -98,8 +111,11 @@ function HockeyCard({ title, description, image, alt, pos, fit, scale }) {
         </div>
       </div>
 
-      {/* ✅ reserved space for a Wix button */}
-      <div className="cardBtnSlot" aria-hidden="true" />
+      {/* ✅ Divider + CTA helper text pinned to bottom */}
+      <div className="cardBtnSlot" aria-label={getCardCtaText(title)}>
+        <div className="cardDivider" aria-hidden="true" />
+        <span className="cardCtaText">{getCardCtaText(title)}</span>
+      </div>
     </div>
   );
 }
