@@ -390,7 +390,7 @@ body {
   width: min(88%, 320px);
   height: 46px;
   border-radius: 999px;
-
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
