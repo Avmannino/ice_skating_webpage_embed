@@ -501,7 +501,7 @@ body {
 /* ✅ Ultra-wide (2560px+): move dividers UP on all cards EXCEPT the Adult League card */
 @media (min-width: 2560px) {
   .logo {
-    height: 125px;
+    height: 145px;
     margin-top: -15px;
     margin-bottom: 5px;
   }
@@ -510,8 +510,8 @@ body {
     font-size: 20px;
     line-height: 1.55;
     max-width: 78ch;
-    margin-bottom: 30px;
-    margin-top: 10px;
+    margin-bottom: 60px;
+    margin-top: 30px;
   }
 
   .content {
