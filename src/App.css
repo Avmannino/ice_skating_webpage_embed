@@ -554,7 +554,7 @@ body {
 
   /* ✅ Move dividers UP on every card except the 4th card (Adult League) */
   .grid > .card:not(:nth-child(4)) .cardDivider {
-    margin-bottom: 36px; /* <-- raises divider position */
+    margin-bottom: 26px; /* <-- raises divider position */
   }
 
   /* ✅ Keep your special "raiseDivider" behavior, but also raise it in 2560 view */
@@ -564,11 +564,11 @@ body {
 
   .cardCtaBtn {
     height: 60px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
   }
 
   .cardCtaBtnText {
-    font-size: 20px;
+    font-size: 19px;
   }
 
   .ctaRow {
