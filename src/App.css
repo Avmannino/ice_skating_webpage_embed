@@ -6,7 +6,7 @@
   --wings-navy: #003a64;
   --wings-red: #cf0b35;
 
-  --bg: #07111b;
+  --bg: #a30029;
 
   --card: rgba(255, 255, 255, 0.13);
   --card-strong: rgba(255, 255, 255, 0.08);
@@ -27,7 +27,7 @@
 /* ✅ Desktop-only: make cards 20% wider */
 @media (min-width: 521px) {
   :root {
-    --card-width: 344px; /* 295 * 1.2 = 354 */
+    --card-width: 344px; /* 295 * 1.2 = 354 (kept your value) */
   }
 }
 
@@ -63,12 +63,12 @@ body {
 /* HERO */
 .hero {
   position: relative;
-  padding: 56px 20px 40px;
-  border-bottom: 1px solid #e4003d9f;
+  padding: 56px 20px 30px;
+  border-bottom: 2px solid #ffffff;
   overflow: hidden;
 
   background:
-    linear-gradient(180deg, rgba(7, 17, 27, 0.86), rgba(7, 17, 27, 0.65)),
+    linear-gradient(180deg, rgba(7, 17, 27, 0.39), rgba(7, 17, 27, 0.65)),
     var(--hero-image, none);
   background-size: cover;
   background-position: center;
@@ -113,7 +113,7 @@ body {
   border-radius: 999px;
 
   text-decoration: none;
-  font-weight: 400; /* Bebas is single-weight; keep this normal */
+  font-weight: 400;
   letter-spacing: 0.08em;
 
   color: rgba(255, 255, 255, 0.92);
@@ -161,7 +161,7 @@ body {
 
 /* ✅ Wings logo */
 .logo {
-  height: 105px;
+  height: 145px;
   width: auto;
   display: block;
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
@@ -177,7 +177,6 @@ body {
   color: rgba(255, 255, 255, 0.78);
   text-align: center;
 
-  /* ✅ Use Titillium Web for non-caps readable copy */
   font-family: "Titillium Web", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -200,6 +199,16 @@ body {
   justify-content: center;
   gap: 20px 55px;
   align-items: stretch;
+}
+
+/* ✅ Desktop: force a single row of 4 cards */
+@media (min-width: 1200px) {
+  .grid {
+    flex-wrap: nowrap; /* <- key change */
+    gap: 20px 40px;
+    max-width: calc((var(--card-width) * 4) + (40px * 3));
+    margin: 0 auto;
+  }
 }
 
 /* CARDS */
@@ -228,28 +237,6 @@ body {
   transform: none;
   transform-origin: center;
   will-change: auto;
-}
-
-@media (min-width: 1000px) {
-  .grid {
-    gap: 20px 40px;
-  }
-
-  .card {
-    flex: 0 0 var(--card-width);
-    max-width: var(--card-width);
-  }
-}
-
-@media (min-width: 1400px) {
-  .grid {
-    gap: 30px 30px;
-  }
-
-  .card {
-    flex: 0 0 var(--card-width);
-    max-width: var(--card-width);
-  }
 }
 
 .card::before {
@@ -319,7 +306,7 @@ body {
 .cardTitle {
   margin: 5px 0 0;
   font-size: 24px;
-  font-weight: 400; /* Bebas is single-weight */
+  font-weight: 400;
   line-height: 1.15;
   letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.96);
@@ -340,7 +327,6 @@ body {
   text-align: center;
   width: 100%;
 
-  /* ✅ Use Titillium Web for readable lowercase copy */
   font-family: "Titillium Web", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 400;
   text-transform: none;
@@ -371,15 +357,9 @@ body {
 .cardDivider {
   width: 75%;
   height: 1px;
-  margin: -0px auto 14px; /* tighter + cleaner spacing above button */
+  margin: -0px auto 14px;
   background: linear-gradient(90deg, transparent, rgba(207, 11, 53, 0.70), transparent);
   opacity: 0.95;
-}
-
-/* ✅ ONLY move divider/button block UP on these 3 cards */
-.card--raiseDivider .cardDivider {
-  margin-top: 5px;
-  margin-bottom: 25px;
 }
 
 /* =========================
@@ -394,7 +374,6 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
 
   border: 1px solid rgba(255, 255, 255, 0.14);
   background:
@@ -462,7 +441,6 @@ body {
 /* Hover/active (desktop pointer) */
 @media (hover: hover) and (pointer: fine) {
   .cardCtaBtn:hover {
-    /* ✅ no "raise" effect */
     transform: none;
     border-color: rgba(207, 11, 53, 0.45);
     box-shadow:
@@ -496,85 +474,6 @@ body {
   font-size: 13px;
   border-top: 1px solid rgba(255, 255, 255, 0.10);
   letter-spacing: 0.06em;
-}
-
-/* ✅ Ultra-wide (2560px+): move dividers UP on all cards EXCEPT the Adult League card */
-@media (min-width: 2560px) {
-  .logo {
-    height: 145px;
-    margin-top: -15px;
-    margin-bottom: 5px;
-  }
-
-  .heroSubtitle {
-    font-size: 20px;
-    line-height: 1.55;
-    max-width: 78ch;
-    margin-bottom: 60px;
-    margin-top: 30px;
-  }
-
-  .content {
-    max-width: 2400px;
-    flex: 0 0 auto;
-    padding-bottom: 60px;
-  }
-
-  .grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 35px;
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  .grid {
-    max-width: calc((var(--card-width) * 4) + (35px * 3));
-  }
-
-  .card {
-    flex: 0 0 var(--card-width);
-    max-width: var(--card-width);
-    height: 550px;
-    min-height: unset;
-    margin-top: 0;
-  }
-
-  .cardTitle {
-    font-size: 28px;
-    letter-spacing: 0.06em;
-    margin-top: 7px;
-  }
-
-  /* ✅ Default divider position for 2560 stays (Adult League uses this) */
-  .cardDivider {
-    margin: 0px auto 16px;
-  }
-
-  /* ✅ Move dividers UP on every card except the 4th card (Adult League) */
-  .grid > .card:not(:nth-child(4)) .cardDivider {
-    margin-bottom: 26px; /* <-- raises divider position */
-  }
-
-  /* ✅ Keep your special "raiseDivider" behavior, but also raise it in 2560 view */
-  .grid > .card.card--raiseDivider:not(:nth-child(4)) .cardDivider {
-    margin-top: -34px;
-  }
-
-  .cardCtaBtn {
-    height: 60px;
-    margin-bottom: 0px;
-  }
-
-  .cardCtaBtnText {
-    font-size: 19px;
-  }
-
-  .ctaRow {
-    padding-top: 70px;
-    padding-bottom: 0;
-  }
 }
 
 /* ✅ MOBILE FIXES */
