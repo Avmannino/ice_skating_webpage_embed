@@ -24,7 +24,8 @@ const CARDS = [
   },
   {
     title: "Cosmic Skate",
-    description: "Lights down, music up—our signature glow-style public skate experience. Fridays and Saturdays.",
+    description:
+      "Lights down, music up—our signature glow-style public skate experience. Friday and Saturday nights.",
     image: imgCosmicSkate,
     alt: "Cosmic Skate at Wings Arena",
     pos: "50% 40%",
@@ -50,10 +51,10 @@ const CARDS = [
 
 function getCardCtaText(title) {
   // You can tweak these if you want different CTAs per card
-  if (title === "Public Skate") return "View Schedule";
-  if (title === "Cosmic Skate") return "View Details";
+  if (title === "Public Skate") return "Info & Sessions";
+  if (title === "Cosmic Skate") return "Info & Sessions";
   if (title === "Private Lessons") return "Learn More";
-  if (title === "Freestyle Figure Skating") return "View Info";
+  if (title === "Freestyle Figure Skating") return "Learn More";
   return "Learn More";
 }
 
@@ -62,6 +63,16 @@ function HockeyCard({ title, description, image, alt, pos, fit, scale, href }) {
   const imgScale = isContain ? 1 : typeof scale === "number" ? scale : 1;
 
   const ctaText = getCardCtaText(title);
+
+  // ✅ Only Cosmic Skate title uses Just Sugar
+  const titleClassName = title === "Cosmic Skate" ? "cardTitle cardTitle--justSugar" : "cardTitle";
+
+  // ✅ Only Cosmic Skate description uses Just Sugar
+  const descClassName = title === "Cosmic Skate" ? "cardDesc cardDesc--justSugar" : "cardDesc";
+
+  // ✅ Only Cosmic Skate CTA text uses Just Sugar (button stays the same)
+  const ctaTextClassName =
+    title === "Cosmic Skate" ? "cardCtaBtnText cardCtaBtnText--justSugar" : "cardCtaBtnText";
 
   return (
     <div className="card" role="group" aria-label={title}>
@@ -80,8 +91,8 @@ function HockeyCard({ title, description, image, alt, pos, fit, scale, href }) {
 
       <div className="cardTop">
         <div className="cardText">
-          <h3 className="cardTitle">{title}</h3>
-          <p className="cardDesc">{description}</p>
+          <h3 className={titleClassName}>{title}</h3>
+          <p className={descClassName}>{description}</p>
         </div>
       </div>
 
@@ -90,7 +101,7 @@ function HockeyCard({ title, description, image, alt, pos, fit, scale, href }) {
 
         {/* ✅ Link navigates TOP window (avoids loading inside an iframe) */}
         <a className="cardCtaBtn" href={href} target="_top" rel="noreferrer" aria-label={ctaText}>
-          <span className="cardCtaBtnText">{ctaText}</span>
+          <span className={ctaTextClassName}>{ctaText}</span>
         </a>
       </div>
     </div>
