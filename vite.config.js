@@ -3,5 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/hockey_webpage_embed/",
+  base: "/ice_skating_webpage_embed/",
 });
