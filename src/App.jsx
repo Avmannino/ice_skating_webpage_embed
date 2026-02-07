@@ -1,4 +1,5 @@
 // src/App.jsx
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 
 // ✅ Branding assets (add these files to src/assets/)
@@ -10,6 +11,7 @@ import heroImg from "./assets/hockey-hero.jpeg";
 // ✅ Card images (add these files to src/assets/cards/)
 import imgPublicSkate from "./assets/cards/publicskate.png";
 import imgCosmicSkate from "./assets/cards/cosmicskate.png";
+import imgLearnToSkate from "./assets/cards/learntoskate.jpg";
 import imgPrivateLessons from "./assets/cards/privatelessons.jpg";
 import imgFreestyle from "./assets/cards/freestyle.jpeg";
 
@@ -31,6 +33,24 @@ const CARDS = [
     pos: "50% 40%",
     href: "https://www.wingsarena.com/cosmic-skate",
   },
+
+  // ✅ NEW: Learn To Skate (image -> fades into video)
+  {
+    title: "Learn To Skate",
+    description: "Skill-building classes for new and developing skaters—structured sessions with great coaching.",
+    image: imgLearnToSkate,
+    alt: "Learn To Skate at Wings Arena",
+    pos: "50% 40%",
+    href: "https://www.wingsarena.com/learnto",
+
+    // ✅ Put your MP4 here: public/videos/learntoskate.mp4
+    videoSrc: `${import.meta.env.BASE_URL}videos/learntoskate.mp4`,
+
+
+    // ✅ Timing controls
+    videoDelayMs: 2500, // how long to show the image first
+  },
+
   {
     title: "Private Lessons",
     description: "One-on-one coaching for skating development—kids, teens, and adults welcome.",
@@ -50,15 +70,15 @@ const CARDS = [
 ];
 
 function getCardCtaText(title) {
-  // You can tweak these if you want different CTAs per card
   if (title === "Public Skate") return "Info & Sessions";
   if (title === "Cosmic Skate") return "Info & Sessions";
+  if (title === "Learn To Skate") return "Learn More";
   if (title === "Private Lessons") return "Learn More";
   if (title === "Freestyle Figure Skating") return "Learn More";
   return "Learn More";
 }
 
-function HockeyCard({ title, description, image, alt, pos, fit, scale, href }) {
+function HockeyCard({ title, description, image, alt, pos, fit, scale, href, videoSrc, videoDelayMs = 2500 }) {
   const isContain = fit === "contain";
   const imgScale = isContain ? 1 : typeof scale === "number" ? scale : 1;
 
@@ -74,11 +94,61 @@ function HockeyCard({ title, description, image, alt, pos, fit, scale, href }) {
   const ctaTextClassName =
     title === "Cosmic Skate" ? "cardCtaBtnText cardCtaBtnText--justSugar" : "cardCtaBtnText";
 
+  // ✅ Media swap (only used when videoSrc exists, e.g. Learn To Skate)
+  const hasVideo = Boolean(videoSrc);
+  const videoRef = useRef(null);
+  const [swapToVideo, setSwapToVideo] = useState(false);
+
+  useEffect(() => {
+    if (!hasVideo) return;
+
+    // Start preloading quietly as early as possible
+    const v = videoRef.current;
+    if (v) {
+      try {
+        v.load();
+      } catch {
+        // ignore
+      }
+    }
+
+    const t = window.setTimeout(async () => {
+      setSwapToVideo(true);
+
+      // Try to autoplay (works best with muted + playsInline)
+      if (videoRef.current) {
+        try {
+          await videoRef.current.play();
+        } catch {
+          // Autoplay can be blocked in some environments; user interaction would be needed.
+        }
+      }
+    }, videoDelayMs);
+
+    return () => window.clearTimeout(t);
+  }, [hasVideo, videoDelayMs]);
+
   return (
     <div className="card" role="group" aria-label={title}>
-      <div className={`cardMedia ${isContain ? "cardMedia--contain" : ""}`}>
+      <div
+        className={[
+          "cardMedia",
+          isContain ? "cardMedia--contain" : "",
+          hasVideo ? "cardMedia--swap" : "",
+          swapToVideo ? "isVideoActive" : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {/* ✅ Image layer (shows first, then fades out if video exists) */}
         <img
-          className={`cardImg ${isContain ? "cardImg--contain" : ""}`}
+          className={[
+            "cardImg",
+            isContain ? "cardImg--contain" : "",
+            hasVideo ? "cardImg--swap" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
           src={image}
           alt={alt}
           loading="lazy"
@@ -87,6 +157,21 @@ function HockeyCard({ title, description, image, alt, pos, fit, scale, href }) {
             transform: `scale(${imgScale})`,
           }}
         />
+
+        {/* ✅ Video layer (Learn To Skate only) */}
+        {hasVideo ? (
+          <video
+            ref={videoRef}
+            className="cardVid"
+            src={videoSrc}
+            muted
+            playsInline
+            loop
+            preload="metadata"
+            // poster is optional; you already show the image layer on top
+            aria-hidden="true"
+          />
+        ) : null}
       </div>
 
       <div className="cardTop">
@@ -99,7 +184,6 @@ function HockeyCard({ title, description, image, alt, pos, fit, scale, href }) {
       <div className="cardBtnSlot" aria-label={ctaText}>
         <div className="cardDivider" aria-hidden="true" />
 
-        {/* ✅ Link navigates TOP window (avoids loading inside an iframe) */}
         <a className="cardCtaBtn" href={href} target="_top" rel="noreferrer" aria-label={ctaText}>
           <span className={ctaTextClassName}>{ctaText}</span>
         </a>

@@ -22,8 +22,6 @@
 /* ✅ Cosmic Skate description uses Just Sugar */
 .cardDesc--justSugar {
   font-family: "Just Sugar", "Titillium Web", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
-
-  /* script fonts usually look better with slightly less tracking */
   letter-spacing: 0.02em;
 }
 
@@ -45,10 +43,8 @@
 
   --shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
 
-  /* ✅ Base card width (mobile / small views) */
   --card-width: 295px;
 
-  /* CTA button theme */
   --cta-bg: rgba(207, 11, 53, 0.18);
   --cta-bg2: #0137631e;
   --cta-border: rgba(255, 255, 255, 0.14);
@@ -59,7 +55,6 @@
 @media (min-width: 521px) {
   :root {
     --card-width: 344px;
-    /* 295 * 1.2 = 354 (kept your value) */
   }
 }
 
@@ -68,7 +63,6 @@ body {
   font-family: "Bebas Neue", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* ✅ Visually hidden helper (keeps SEO/accessibility) */
 .srOnly {
   position: absolute !important;
   width: 1px !important;
@@ -112,11 +106,13 @@ body {
   background:
     radial-gradient(900px 350px at 20% 30%, #d400352b, transparent 60%),
     radial-gradient(900px 350px at 80% 20%, rgba(0, 58, 100, 0.42), transparent 55%),
-    repeating-linear-gradient(135deg,
+    repeating-linear-gradient(
+      135deg,
       rgba(255, 255, 255, 0.06) 0px,
       rgba(255, 255, 255, 0.06) 1px,
       transparent 1px,
-      transparent 14px);
+      transparent 14px
+    );
   opacity: 0.65;
   pointer-events: none;
 }
@@ -132,7 +128,6 @@ body {
   text-align: center;
 }
 
-/* ✅ Button (re-used for CTA under cards) */
 .heroBtn {
   display: inline-flex;
   align-items: center;
@@ -179,7 +174,6 @@ body {
   border-color: rgba(207, 11, 53, 0.60);
 }
 
-/* ✅ HERO HEADER WRAPPER */
 .brandStack {
   display: flex;
   flex-direction: column;
@@ -189,7 +183,6 @@ body {
   width: 100%;
 }
 
-/* ✅ Wings logo */
 .logo {
   height: 145px;
   width: auto;
@@ -222,23 +215,12 @@ body {
   flex: 1;
 }
 
-/* ✅ Default layout: flex wrap */
 .grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px 55px;
   align-items: stretch;
-}
-
-/* ✅ Desktop: force a single row of 4 cards */
-@media (min-width: 1200px) {
-  .grid {
-    flex-wrap: nowrap;
-    gap: 20px 40px;
-    max-width: calc((var(--card-width) * 4) + (40px * 3));
-    margin: 0 auto;
-  }
 }
 
 /* CARDS */
@@ -303,12 +285,49 @@ body {
   transition: none;
 }
 
+/* ✅ Image->Video Crossfade (Learn To Skate) */
+.cardMedia--swap {
+  position: relative;
+}
+
+.cardImg--swap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 900ms ease;
+  z-index: 2;
+}
+
+.cardVid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 900ms ease;
+  z-index: 1;
+}
+
+/* When active, fade image out and fade video in */
+.cardMedia--swap.isVideoActive .cardImg--swap {
+  opacity: 0;
+}
+
+.cardMedia--swap.isVideoActive .cardVid {
+  opacity: 1;
+}
+
 .cardMedia::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.25));
   pointer-events: none;
+  z-index: 3; /* stays above both */
 }
 
 .cardMedia--contain {
@@ -321,6 +340,7 @@ body {
   transform: none !important;
 }
 
+/* CTA + text */
 .cardTop {
   display: flex;
   gap: 10px;
@@ -362,7 +382,6 @@ body {
   text-transform: none;
 }
 
-/* ✅ CTA row under cards */
 .ctaRow {
   width: 100%;
   display: flex;
@@ -371,7 +390,6 @@ body {
   padding-bottom: 10px;
 }
 
-/* ✅ CTA slot pinned to bottom */
 .cardBtnSlot {
   margin-top: auto;
   padding-top: 14px;
@@ -383,7 +401,6 @@ body {
   justify-content: center;
 }
 
-/* ✅ divider between description and CTA */
 .cardDivider {
   width: 75%;
   height: 1px;
@@ -392,9 +409,6 @@ body {
   opacity: 0.95;
 }
 
-/* =========================
-   ✅ CTA PILL BUTTON
-   ========================= */
 .cardCtaBtn {
   position: relative;
   width: min(88%, 320px);
@@ -433,10 +447,7 @@ body {
   inset: -2px;
 
   background:
-    linear-gradient(120deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.12) 18%,
-      rgba(255, 255, 255, 0.00) 35%);
+    linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.12) 18%, rgba(255, 255, 255, 0.00) 35%);
   transform: translateX(-120%);
   transition: transform 550ms ease;
   pointer-events: none;
@@ -466,7 +477,6 @@ body {
   text-transform: none;
 }
 
-/* Hover/active (desktop pointer) */
 @media (hover: hover) and (pointer: fine) {
   .cardCtaBtn:hover {
     transform: none;
@@ -487,10 +497,10 @@ body {
   }
 }
 
-/* Reduced motion */
+/* Reduced motion: kill the fade */
 @media (prefers-reduced-motion: reduce) {
-  .cardCtaBtn,
-  .cardCtaBtn::before {
+  .cardImg--swap,
+  .cardVid {
     transition: none !important;
   }
 }
@@ -572,15 +582,5 @@ body {
   .cardCtaBtnText {
     font-size: 19px;
     letter-spacing: 0.10em;
-  }
-
-  /* ✅ Keep Cosmic CTA text consistent on mobile as well */
-  .cardCtaBtnText--justSugar {
-    letter-spacing: 0.06em;
-  }
-
-  /* ✅ Keep Cosmic description consistent on mobile */
-  .cardDesc--justSugar {
-    letter-spacing: 0.02em;
   }
 }
