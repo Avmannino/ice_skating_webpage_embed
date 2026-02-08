@@ -41,7 +41,7 @@ const CARDS = [
     image: imgLearnToSkate,
     alt: "Learn To Skate at Wings Arena",
     pos: "50% 40%",
-    href: "https://www.wingsarena.com/learnto",
+    href: "https://www.wingsarena.com/learntoskate",
 
     // ✅ Put your MP4 here: public/videos/learntoskate.mp4
     videoSrc: `${import.meta.env.BASE_URL}videos/learntoskate.mp4`,
