@@ -31,6 +31,25 @@
   letter-spacing: 0.06em;
 }
 
+/* ✅ CRITICAL: remove default browser spacing + allow true full-bleed */
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ Prevent tiny horizontal scrollbars caused by 100vw math */
+body {
+  overflow-x: hidden;
+}
+
 :root {
   --wings-navy: #003a64;
   --wings-red: #cf0b35;
@@ -78,6 +97,7 @@ body {
 .page {
   font-family: "Bebas Neue";
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   background:
@@ -89,6 +109,12 @@ body {
 /* HERO */
 .hero {
   position: relative;
+
+  /* ✅ FULL-BLEED FIX (forces full viewport width even if parent is constrained) */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+
   padding: 56px 20px 30px;
   border-bottom: 2px solid #ffffff;
   overflow: hidden;
@@ -215,7 +241,7 @@ body {
   flex: 1;
 }
 
-/* ✅ UPDATED: bigger horizontal gaps on desktop */
+/* ✅ bigger horizontal gaps on desktop */
 .grid {
   display: flex;
   flex-wrap: wrap;
@@ -237,10 +263,10 @@ body {
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
 
-  /* ✅ SAME hover animation behavior as your other project */
+  /* ✅ hover animation */
   transform: scale(1);
   transform-origin: center;
-  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  transition: transform 180ms ease, box-shadow 220ms ease, border-color 220ms ease;
   will-change: transform;
 
   outline: none;
@@ -257,7 +283,7 @@ body {
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
     transform: scale(1.02);
-    z-index: 5; /* keeps the scaled card above neighbors */
+    z-index: 5;
     border-color: rgba(255, 255, 255, 0.22);
     box-shadow: 0 18px 55px rgba(0, 0, 0, 0.55);
   }
@@ -336,7 +362,6 @@ body {
   z-index: 1;
 }
 
-/* When active, fade image out and fade video in */
 .cardMedia--swap.isVideoActive .cardImg--swap {
   opacity: 0;
 }
@@ -351,7 +376,7 @@ body {
   inset: 0;
   background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.25));
   pointer-events: none;
-  z-index: 3; /* stays above both */
+  z-index: 3;
 }
 
 .cardMedia--contain {
@@ -364,7 +389,6 @@ body {
   transform: none !important;
 }
 
-/* CTA + text */
 .cardTop {
   display: flex;
   gap: 10px;
@@ -465,7 +489,6 @@ body {
   content: "";
   position: absolute;
   inset: -2px;
-
   background: linear-gradient(
     120deg,
     transparent 0%,
