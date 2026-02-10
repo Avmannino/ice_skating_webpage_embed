@@ -111,9 +111,9 @@ body {
   position: relative;
 
   /* ✅ FULL-BLEED FIX (forces full viewport width even if parent is constrained) */
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  width: 100vw !important;
+  /* margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw); */
 
   padding: 56px 20px 30px;
   border-bottom: 2px solid #ffffff;
