@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 // ✅ Branding assets (add these files to src/assets/)
@@ -33,8 +33,6 @@ const CARDS = [
     pos: "50% 40%",
     href: "https://www.wingsarena.com/cosmic-skate",
   },
-
-  // ✅ NEW: Learn To Skate (image -> fades into video)
   {
     title: "Learn To Skate",
     description: "Skill-building classes for new and developing skaters—structured sessions with great coaching.",
@@ -42,14 +40,9 @@ const CARDS = [
     alt: "Learn To Skate at Wings Arena",
     pos: "50% 40%",
     href: "https://www.wingsarena.com/learntoskate",
-
-    // ✅ Put your MP4 here: public/videos/learntoskate.mp4
     videoSrc: `${import.meta.env.BASE_URL}videos/learntoskate.mp4`,
-
-    // ✅ Timing controls
-    videoDelayMs: 2500, // how long to show the image first
+    videoDelayMs: 2500,
   },
-
   {
     title: "Private Lessons",
     description: "One-on-one coaching for skating development—kids, teens, and adults welcome.",
@@ -94,17 +87,11 @@ function HockeyCard({
 
   const ctaText = getCardCtaText(title);
 
-  // ✅ Only Cosmic Skate title uses Just Sugar
   const titleClassName = title === "Cosmic Skate" ? "cardTitle cardTitle--justSugar" : "cardTitle";
-
-  // ✅ Only Cosmic Skate description uses Just Sugar
   const descClassName = title === "Cosmic Skate" ? "cardDesc cardDesc--justSugar" : "cardDesc";
-
-  // ✅ Only Cosmic Skate CTA text uses Just Sugar (button stays the same)
   const ctaTextClassName =
     title === "Cosmic Skate" ? "cardCtaBtnText cardCtaBtnText--justSugar" : "cardCtaBtnText";
 
-  // ✅ Media swap (only used when videoSrc exists, e.g. Learn To Skate)
   const hasVideo = Boolean(videoSrc);
   const videoRef = useRef(null);
   const [swapToVideo, setSwapToVideo] = useState(false);
@@ -112,7 +99,6 @@ function HockeyCard({
   useEffect(() => {
     if (!hasVideo) return;
 
-    // Start preloading quietly as early as possible
     const v = videoRef.current;
     if (v) {
       try {
@@ -124,13 +110,11 @@ function HockeyCard({
 
     const t = window.setTimeout(async () => {
       setSwapToVideo(true);
-
-      // Try to autoplay (works best with muted + playsInline)
       if (videoRef.current) {
         try {
           await videoRef.current.play();
         } catch {
-          // Autoplay can be blocked in some environments; user interaction would be needed.
+          // autoplay can be blocked
         }
       }
     }, videoDelayMs);
@@ -150,7 +134,6 @@ function HockeyCard({
           .filter(Boolean)
           .join(" ")}
       >
-        {/* ✅ Image layer (shows first, then fades out if video exists) */}
         <img
           className={[
             "cardImg",
@@ -168,7 +151,6 @@ function HockeyCard({
           }}
         />
 
-        {/* ✅ Video layer (Learn To Skate only) */}
         {hasVideo ? (
           <video
             ref={videoRef}
@@ -192,7 +174,6 @@ function HockeyCard({
 
       <div className="cardBtnSlot" aria-label={ctaText}>
         <div className="cardDivider" aria-hidden="true" />
-
         <a className="cardCtaBtn" href={href} target="_top" rel="noreferrer" aria-label={ctaText}>
           <span className={ctaTextClassName}>{ctaText}</span>
         </a>
@@ -204,22 +185,25 @@ function HockeyCard({
 export default function App() {
   return (
     <div className="page">
-      <header className="hero" style={{ "--hero-image": `url(${heroImg})` }}>
-        <div className="heroOverlay" />
+      {/* ✅ NEW: full-bleed wrapper that forces the hero to viewport width */}
+      <div className="fullBleed">
+        <header className="hero" style={{ "--hero-image": `url(${heroImg})` }}>
+          <div className="heroOverlay" />
 
-        <div className="heroInner">
-          <div className="brandStack" aria-label="Wings Arena Skating">
-            <img className="logo" src={logo} alt="Wings Arena" />
+          <div className="heroInner">
+            <div className="brandStack" aria-label="Wings Arena Skating">
+              <img className="logo" src={logo} alt="Wings Arena" />
+            </div>
+
+            <h1 className="srOnly">Wings Arena Skating</h1>
+
+            <p className="heroSubtitle">
+              Explore public sessions, cosmic nights, private instruction, and freestyle ice—everything skating in one
+              place.
+            </p>
           </div>
-
-          <h1 className="srOnly">Wings Arena Skating</h1>
-
-          <p className="heroSubtitle">
-            Explore public sessions, cosmic nights, private instruction, and freestyle ice—everything skating in one
-            place.
-          </p>
-        </div>
-      </header>
+        </header>
+      </div>
 
       <main className="content">
         <section className="grid" aria-label="Skating links">

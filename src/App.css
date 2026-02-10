@@ -106,15 +106,30 @@ body {
     var(--bg);
 }
 
+/* =========================================================
+   ✅ NEW: FULL-BLEED WRAPPER (add this class in JSX)
+   This is more reliable in embedded/deployed contexts than
+   putting 100vw+calc margins directly on .hero.
+   ========================================================= */
+.fullBleed {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0;
+}
+
+.fullBleed .hero {
+  width: 100%;
+  margin: 0;
+}
+
 /* HERO */
 .hero {
   position: relative;
 
-  /* ✅ FULL-BLEED FIX (forces full viewport width even if parent is constrained) */
-  width: 100vw !important;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-
+  /* ✅ IMPORTANT: wrapper handles full-bleed now (remove 100vw/calc here) */
   padding: 56px 20px 30px;
   border-bottom: 2px solid #ffffff;
   overflow: hidden;
@@ -642,7 +657,7 @@ body {
 }
 
 /* =========================================================
-   ✅ DEPLOYED OVERRIDES (THIS IS THE FIX)
+   ✅ DEPLOYED OVERRIDES (KEEP)
    These beat Vite template/global CSS like:
    body { display:flex; place-items:center; }
    #root { max-width:1280px; padding:2rem; }
@@ -669,9 +684,5 @@ body {
   display: block !important;
 }
 
-/* If any global CSS sets a centered max-width container, force our app to full-bleed */
-.page {
-  width: 100vw !important;
-  margin-left: calc(50% - 50vw) !important;
-  margin-right: calc(50% - 50vw) !important;
-}
+/* ✅ IMPORTANT: removed the old .page { width:100vw; margin-left/right:calc(...) } override
+   The full-bleed behavior is now handled by .fullBleed in JSX. */
