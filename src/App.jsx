@@ -46,7 +46,6 @@ const CARDS = [
     // ✅ Put your MP4 here: public/videos/learntoskate.mp4
     videoSrc: `${import.meta.env.BASE_URL}videos/learntoskate.mp4`,
 
-
     // ✅ Timing controls
     videoDelayMs: 2500, // how long to show the image first
   },
@@ -78,7 +77,18 @@ function getCardCtaText(title) {
   return "Learn More";
 }
 
-function HockeyCard({ title, description, image, alt, pos, fit, scale, href, videoSrc, videoDelayMs = 2500 }) {
+function HockeyCard({
+  title,
+  description,
+  image,
+  alt,
+  pos,
+  fit,
+  scale,
+  href,
+  videoSrc,
+  videoDelayMs = 2500,
+}) {
   const isContain = fit === "contain";
   const imgScale = isContain ? 1 : typeof scale === "number" ? scale : 1;
 
@@ -168,7 +178,6 @@ function HockeyCard({ title, description, image, alt, pos, fit, scale, href, vid
             playsInline
             loop
             preload="metadata"
-            // poster is optional; you already show the image layer on top
             aria-hidden="true"
           />
         ) : null}
@@ -206,7 +215,8 @@ export default function App() {
           <h1 className="srOnly">Wings Arena Skating</h1>
 
           <p className="heroSubtitle">
-            Explore public sessions, cosmic nights, private instruction, and freestyle ice—everything skating in one place.
+            Explore public sessions, cosmic nights, private instruction, and freestyle ice—everything skating in one
+            place.
           </p>
         </div>
       </header>

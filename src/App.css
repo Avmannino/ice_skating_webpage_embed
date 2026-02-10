@@ -215,11 +215,12 @@ body {
   flex: 1;
 }
 
+/* ✅ UPDATED: bigger horizontal gaps on desktop */
 .grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px 55px;
+  gap: 20px 72px; /* row-gap | column-gap */
   align-items: stretch;
 }
 
@@ -236,7 +237,11 @@ body {
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
 
-  transition: none;
+  /* ✅ SAME hover animation behavior as your other project */
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  will-change: transform;
 
   outline: none;
   position: relative;
@@ -245,10 +250,29 @@ body {
 
   flex: 0 0 var(--card-width);
   max-width: var(--card-width);
+  z-index: 0;
+}
 
-  transform: none;
-  transform-origin: center;
-  will-change: auto;
+/* ✅ Hover grows the whole card (desktop pointer only) */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: scale(1.02);
+    z-index: 5; /* keeps the scaled card above neighbors */
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.55);
+  }
+
+  .card:active {
+    transform: scale(1.02);
+  }
+}
+
+/* ✅ Keyboard users get the same effect when tabbing into the card */
+.card:focus-within {
+  transform: scale(1.03);
+  z-index: 5;
+  border-color: rgba(207, 11, 53, 0.35);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.55);
 }
 
 .card::before {
@@ -432,11 +456,7 @@ body {
   cursor: pointer;
   user-select: none;
 
-  transition:
-    transform 180ms ease,
-    box-shadow 220ms ease,
-    border-color 220ms ease,
-    filter 220ms ease;
+  transition: transform 180ms ease, box-shadow 220ms ease, border-color 220ms ease, filter 220ms ease;
   filter: saturate(1.05);
   overflow: hidden;
 }
@@ -446,8 +466,12 @@ body {
   position: absolute;
   inset: -2px;
 
-  background:
-    linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.12) 18%, rgba(255, 255, 255, 0.00) 35%);
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 18%,
+    rgba(255, 255, 255, 0.00) 35%
+  );
   transform: translateX(-120%);
   transition: transform 550ms ease;
   pointer-events: none;
@@ -497,11 +521,20 @@ body {
   }
 }
 
-/* Reduced motion: kill the fade */
+/* Reduced motion: kill BOTH hover scale and the fade */
 @media (prefers-reduced-motion: reduce) {
+  .card,
+  .cardCtaBtn,
+  .cardCtaBtn::before,
   .cardImg--swap,
   .cardVid {
     transition: none !important;
+  }
+
+  .card:hover,
+  .card:active,
+  .card:focus-within {
+    transform: none !important;
   }
 }
 
